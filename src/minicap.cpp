@@ -32,12 +32,13 @@ void print_usage(char **argv) {
     printf("  -u, --udid UDID\t\ttarget specific device by its 40-digit device UDID\n");
     printf("  -p, --port PORT\t\tport to run server on\n");
     printf("  -r, --resolution RESOLUTION\tdesired resolution <w>x<h>\n");
+    printf("  -r, --waitTime WAITTIME\tthe time(seconds) interval of screen capture\n")
     printf("  -h, --help\t\t\tprints usage information\n");
     printf("\n");
 }
 
 
-bool parse_args(int argc, char **argv, const char **udid, int *port, const char **resolution) {
+bool parse_args(int argc, char **argv, const char **udid, int *port, const char **resolution, int *waitTime) {
     if ( argc < 7 ) {
         // Currently the easiest way to make all arguments required
         print_usage(argv);
@@ -69,6 +70,15 @@ bool parse_args(int argc, char **argv, const char **udid, int *port, const char 
                 return false;
             }
             *resolution = argv[i];
+            continue;
+        }
+        else if (!strcmp(argv[i], "-t") || !strcmp(argv[i], "--waitTime")) {
+            i++;
+            if (!argv[i]) {
+                print_usage(argv);
+                return false;
+            }
+            *waitTime = atoi(argv[i]);
             continue;
         }
         else if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "--help")) {
@@ -143,9 +153,10 @@ int main(int argc, char **argv) {
     const char *udid = NULL;
     const char *resolution = NULL;
     int port = 0;
+    int waitTime = 0;
 
     setup_signal_handler();
-    if ( !parse_args(argc, argv, &udid, &port, &resolution) ) {
+    if ( !parse_args(argc, argv, &udid, &port, &resolution, &waitTime) ) {
         return EXIT_FAILURE;
     }
 
@@ -205,6 +216,7 @@ int main(int argc, char **argv) {
             if ( pumps(socket, encoder.getEncodedData(), encoder.getEncodedSize()) < 0 ) {
                 break;
             }
+            Sleep(waitTime);
         }
         client.stop();
     }
