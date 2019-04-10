@@ -32,7 +32,7 @@ void print_usage(char **argv) {
     printf("  -u, --udid UDID\t\ttarget specific device by its 40-digit device UDID\n");
     printf("  -p, --port PORT\t\tport to run server on\n");
     printf("  -r, --resolution RESOLUTION\tdesired resolution <w>x<h>\n");
-    printf("  -r, --waitTime WAITTIME\tthe time(seconds) interval of screen capture\n")
+    printf("  -r, --waitTime WAITTIME\tthe time(seconds) interval of screen capture\n");
     printf("  -h, --help\t\t\tprints usage information\n");
     printf("\n");
 }
