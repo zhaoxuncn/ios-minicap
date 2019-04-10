@@ -216,7 +216,7 @@ int main(int argc, char **argv) {
             if ( pumps(socket, encoder.getEncodedData(), encoder.getEncodedSize()) < 0 ) {
                 break;
             }
-            Sleep(waitTime);
+            sleep(waitTime);
         }
         client.stop();
     }
